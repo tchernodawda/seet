@@ -250,8 +250,8 @@ Docker handles OpenSearch and MinIO automatically. Only Python runs on your host
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/thiernodaoudaly/seet-rag-financial-app.git
-cd seet-rag-financial-app
+git clone https://github.com/tchernodawda/seet.git
+cd seet
 
 # 2. Create a Python environment
 conda create -n seet-rag python=3.11
