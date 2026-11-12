@@ -1,4 +1,4 @@
-# Seet — Multimodal Financial Document Intelligence
+# Seet: Multimodal Financial Document Intelligence
 
 <div align="center">
 
@@ -11,15 +11,15 @@
 ![RAGAS](https://img.shields.io/badge/RAGAS%20Score-84.4%25-22c55e?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-**An end-to-end multimodal RAG system for intelligent financial report analysis — built for and deployed at [Sonatel (Orange Senegal)](https://www.sonatel.sn), West Africa's leading telecommunications group.**
+**An end-to-end multimodal RAG system for intelligent financial report analysis, built for and deployed @ Sonatel (Orange Senegal), West Africa's leading telecommunications group.**
 
-*"Seet" (ꜱᴇᴇᴛ) — from Wolof, meaning "to search"*
+*"Seet" (ꜱᴇᴇᴛ) from Wolof, meaning "to search"*
 
 </div>
 
 ## Context & Motivation
 
-This project was commissioned by the **Human Resources and Finance Division of Sonatel** (Orange Senegal) during an engineering internship. The challenge: Sonatel's financial analysts and HR teams needed to query complex PDF reports — full of tables, charts, and mixed-language content — without manually reading hundreds of pages each quarter.
+This project was commissioned by the **Human Resources and Finance Division of Sonatel** (Orange Senegal) during an engineering internship. The challenge: Sonatel's financial analysts and HR teams needed to query complex PDF reports, full of tables, charts, and mixed-language content, without manually reading hundreds of pages each quarter.
 
 Seet RAG solves this by combining **multimodal document understanding** (Claude Vision), **semantic search** (BGE-M3 + OpenSearch hybrid), and **LLM-powered answer generation** (Claude 3.7 Sonnet) into a single, production-ready conversational interface.
 
@@ -27,13 +27,13 @@ The system was evaluated against real Sonatel financial reports from 2023–2025
 
 ## Key Features
 
-- **Multimodal PDF ingestion** — converts PDF pages to images, then uses Claude Vision to extract text, tables, charts, and figures with full semantic understanding
-- **Intelligent semantic chunking** — Claude 3.7 Sonnet segments extracted content into coherent, self-contained chunks, preserving financial data integrity across table rows and multi-page figures
-- **1024-dimension vector embeddings** — BGE-M3, a multilingual embedding model optimised for retrieval, encodes each chunk and stores it in OpenSearch using the HNSW algorithm
-- **Hybrid search with automatic temporal filtering** — combines dense vector similarity and BM25 text search; Claude Haiku automatically detects and applies time-period filters (e.g. "Q1 2024", "fiscal year 2023") from the user's query
-- **LLM reranking** — Claude Haiku re-scores retrieved chunks for relevance before passing them to the generator, improving answer precision
-- **Cited, image-grounded answers** — every response includes source references (file, page, section, period) and the corresponding page images stored in MinIO
-- **RAGAS-evaluated quality** — automated evaluation pipeline measuring Context Precision, Recall, Faithfulness, and Answer Relevancy
+- **Multimodal PDF ingestion**: converts PDF pages to images, then uses Claude Vision to extract text, tables, charts, and figures with full semantic understanding
+- **Intelligent semantic chunking**: Claude 3.7 Sonnet segments extracted content into coherent, self-contained chunks, preserving financial data integrity across table rows and multi-page figures
+- **1024-dimension vector embeddings**: BGE-M3, a multilingual embedding model optimised for retrieval, encodes each chunk and stores it in OpenSearch using the HNSW algorithm
+- **Hybrid search with automatic temporal filtering**: combines dense vector similarity and BM25 text search; Claude Haiku automatically detects and applies time-period filters (e.g. "Q1 2024", "fiscal year 2023") from the user's query
+- **LLM reranking**: Claude Haiku re-scores retrieved chunks for relevance before passing them to the generator, improving answer precision
+- **Cited, image-grounded answers**: every response includes source references (file, page, section, period) and the corresponding page images stored in MinIO
+- **RAGAS-evaluated quality**: automated evaluation pipeline measuring Context Precision, Recall, Faithfulness, and Answer Relevancy
 
 ## Architecture
 
@@ -41,7 +41,7 @@ The system was evaluated against real Sonatel financial reports from 2023–2025
 
 The system is built around three sequential pipelines:
 
-### 1 — Ingestion Pipeline
+### 1. Ingestion Pipeline
 
 ```
 PDF file
@@ -79,7 +79,7 @@ opensearch_indexer.py     → Indexes chunks into OpenSearch (index: rag-documen
                              and the raw text (for BM25), plus all metadata fields
 ```
 
-### 2 — Retrieval Pipeline
+### 2. Retrieval Pipeline
 
 ```
 User query (natural language)
@@ -103,7 +103,7 @@ reranker.py
        → Returns top-K most relevant chunks (default K=5)
 ```
 
-### 3 — Generation Pipeline
+### 3. Generation Pipeline
 
 ```
 Top-K chunks + MinIO image URLs
@@ -168,9 +168,9 @@ GLOBAL SCORE          0.844 / 1.000   ██████████████
 
 **Interpretation:**
 
-The **perfect Context Recall (1.0)** confirms that the hybrid search + HNSW indexing strategy never misses a relevant document — every piece of information needed to answer the query is present in the retrieved context. The **high Context Precision (0.850)** shows that the reranking step successfully filters out noise before generation.
+The **perfect Context Recall (1.0)** confirms that the hybrid search + HNSW indexing strategy never misses a relevant document, every piece of information needed to answer the query is present in the retrieved context. The **high Context Precision (0.850)** shows that the reranking step successfully filters out noise before generation.
 
-The **Faithfulness score (0.632)** reflects Claude's tendency to synthesise and paraphrase across multiple sources rather than quote verbatim — a characteristic of generative models that can be mitigated with stricter prompting or a citation-extraction post-processing step (planned for v2).
+The **Faithfulness score (0.632)** reflects Claude's tendency to synthesise and paraphrase across multiple sources rather than quote verbatim, a characteristic of generative models that can be mitigated with stricter prompting or a citation-extraction post-processing step (planned for v2).
 
 **Overall: 84.4% global RAGAS score → rated "Excellent" for a production RAG system.**
 
@@ -244,7 +244,7 @@ sudo apt-get install poppler-utils
 
 ## Installation & Setup
 
-### Option A — Docker Compose (recommended)
+### Option A: Docker Compose (recommended)
 
 Docker handles OpenSearch and MinIO automatically. Only Python runs on your host.
 
@@ -284,7 +284,7 @@ streamlit run app_streamlit.py
 # → Open http://localhost:8501
 ```
 
-### Option B — Without Docker
+### Option B: Without Docker
 
 If Docker is not available, install OpenSearch and MinIO directly on your machine. Follow the detailed platform-specific instructions below.
 
@@ -315,7 +315,7 @@ discovery.type: single-node
 </details>
 
 <details>
-<summary><strong>OpenSearch — Ubuntu / Debian</strong></summary>
+<summary><strong>OpenSearch - Ubuntu / Debian</strong></summary>
 
 ```bash
 curl -o- https://artifacts.opensearch.org/publickeys/opensearch.pgp \
@@ -342,7 +342,7 @@ curl http://localhost:9200  # verify
 </details>
 
 <details>
-<summary><strong>OpenSearch — macOS</strong></summary>
+<summary><strong>OpenSearch - macOS</strong></summary>
 
 ```bash
 brew tap opensearch-project/opensearch
@@ -360,7 +360,7 @@ curl http://localhost:9200  # verify
 </details>
 
 <details>
-<summary><strong>MinIO — all platforms</strong></summary>
+<summary><strong>MinIO - all platforms</strong></summary>
 
 **Windows:** Download `minio.exe` from [min.io/download](https://min.io/download). Create `C:\minio\data`, then run:
 ```batch
@@ -411,7 +411,7 @@ MINIO_SECRET_KEY=minioadmin
 
 Once running at `http://localhost:8501`:
 
-### Step 1 — Index a document
+### Step 1: Index a document
 
 1. Click **"Choose a PDF file"** in the sidebar
 2. Select a financial report (PDF format)
@@ -424,9 +424,9 @@ Once running at `http://localhost:8501`:
    - BGE-M3 embedding generation
    - OpenSearch indexing
 
-Processing time depends on document length — typically 1–3 minutes per 10-page document.
+Processing time depends on document length, typically 1–3 minutes per 10-page document.
 
-### Step 2 — Ask questions
+### Step 2: Ask questions
 
 Use natural language. The system handles both French and English and automatically detects temporal scope.
 
@@ -450,14 +450,14 @@ Compare H1 2025 results with H1 2024.
 What is the revenue growth trend from 2023 to 2025?
 ```
 
-### Step 3 — Explore sources
+### Step 3: Explore sources
 
 Each answer includes:
-- **Source citations** — document name, page number, section, content type, time period
-- **Page images** — the actual PDF page images fetched from MinIO for visual verification
+- **Source citations**: document name, page number, section, content type, time period
+- **Page images**: the actual PDF page images fetched from MinIO for visual verification
 - Click **"View sources"** to expand the citation panel
 
-### Step 4 — Browse indexed data
+### Step 4: Browse indexed data
 
 The sidebar's **"Available data"** section shows:
 - Indexed file names
@@ -551,26 +551,11 @@ netstat -ano | findstr :9200
 # Kill the process or change the port in docker-compose.yml
 ```
 
-## Roadmap
-
-- [ ] Add DELETE and UPDATE routes for indexed documents
-- [ ] Improve Faithfulness score with stricter citation-extraction prompting
-- [ ] Support multi-document cross-reference queries
-- [ ] Add a Gradio or FastAPI interface as an alternative to Streamlit
-- [ ] Publish pre-built Docker image to Docker Hub
-- [ ] Add GitHub Actions CI for automated RAGAS regression testing
-
-## Contributors
-
-**Astou DIALLO · Cheikh Marie Teuw DIOP · Thierno Daouda LY**
-
-Built during an engineering internship at **Sonatel** (Orange Senegal), in response to a real business need from the HR and Finance Division.
-
 ## License
 
 This project is released under the MIT License. It integrates the following third-party services and libraries, each governed by their own licence:
-- **Claude API** — [Anthropic Terms of Service](https://www.anthropic.com/legal/aup)
-- **OpenSearch** — Apache 2.0
-- **MinIO** — GNU AGPL v3
-- **BGE-M3** — MIT
-- **RAGAS** — Apache 2.0
+- **Claude API**: [Anthropic Terms of Service](https://www.anthropic.com/legal/aup)
+- **OpenSearch**: Apache 2.0
+- **MinIO**: GNU AGPL v3
+- **BGE-M3**: MIT
+- **RAGAS**: Apache 2.0
